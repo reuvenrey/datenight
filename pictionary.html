@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  
+	<head>
+		<link rel="stylesheet" href="https://reuvenrey.github.io/datenight/files/styleSheet.css">
+		<link href="https://fonts.googleapis.com/css?family=Akatab|Anuphan" rel="stylesheet">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" type="image/x-icon" href="files/images/webfavicon.ico">
+
+		<title>&#128302; Pretty Pictionary</title>
+	</head>
+
+	<style>
+	</style>
+
+	<body>
+		<div id='backgroundDiv'></div>
+		<div id='header'><img src='files/images/discordDatenightLogo.png' onclick='window.open("https://reuvenrey.github.io/datenight","_self")'></div>
+		<div class='container'>
+			<h1>&#128302; Pretty Pictionary &#128302;</h1>
+			<p>Open up MS Paint to use as your canvas. <b>DON'T SHOW ME THIS WINDOW</b> as your clue card will be shown below! Each of us will take turns getting a clue and drawing on the canvas (make sure to share your screen). The other person will try to guess what we're drawing. I've included a score card.</p>
+			<p>Your clues will be automatically removed from future rounds, however mine will not. To work around this, i've also included a dropdown for you to select my clues (after you've guessed them) to remove them from future rounds.</p>
+		</div>
+
+		<br>
+		
+		<div class='container'>
+			<h2>Clue Card</h2>
+			<div style='margin:10px;'><h3 id='userClue'>Press 'Next Clue' to Generate a Clue</h3></div>
+			<p><button onclick='generateClue()'>Next Clue</button></p>
+		</div>
+
+		<br>
+
+		<div class='container'>
+			<h2>Remove Words</h2>
+			<input type='text' placeholder='Type the Word' id='txtInput'></input>
+			<button>Remove</button>
+		</div>
+
+		<br>
+
+		<div class='container'>
+			<h2>Scoreboard</h2>
+			<div style='margin:10px;'><h3 id='scoreDisp'>0 v 0</h3></div>
+			<button onclick='scorePlus(1)'>Reuven +</button> <button onclick='scorePlus(2)'>Michael +</button>
+		</div>
+		
+	</body>
+
+	<script>
+		const clueDisp = document.getElementById("userClue");
+		const scoreDisp = document.getElementById("scoreDisp");
+		const txtInput = document.getElementById("txtInput");
+
+		var scoreR = 0;
+		var scoreM = 0;
+
+		function scorePlus(num){
+			if(num == 1){
+				scoreR += 1;
+			}else{
+				scoreM += 1;
+			}
+			scoreDisp.innerHTML = "<span style='color:cyan'>Rooben: " + scoreR + " </span>|<span style='color:red'> Michael Poop: " + scoreM + "</span>";
+		}
+		
+		function generateClue(){
+			
+		}
+	</script>
+	
+</html>
