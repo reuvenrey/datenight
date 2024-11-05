@@ -11,13 +11,6 @@
 	</head>
 
 	<style>
-		#backgroundDiv {position:absolute; top:0; left:0; right:0; bottom:0; background:linear-gradient(midnightblue,rebeccapurple); z-index:-100;}
-
-		#header {text-align:center;}
-     		#header img{width:90%; max-width:450px; height:auto; object-fit:cover; cursor:pointer; margin:10px auto 20px auto; transition:0.5s;}
-		#header img:hover{scale:1.05;}
-		
-		.container{margin:20px auto 20px auto; width:98%; max-width:1000px; text-align:center; color:white;}
 	</style>
 
 	<body>
@@ -27,8 +20,32 @@
 			<h1>Welcome!</h1>
 			<p>Get ready for a fun & romantic evening with your pretty boy <3 </p>
 		</div>
-		<div class='container'>
-			<button>View Activities</button>
+		<div class='container' id='vA'>
+			<button onclick='document.getElementById("activities").style.display="block"; document.getElementById("vA").style.display="none";'>View Activities</button>
+		</div>
+		<div class='container' id='activities' style='display:none;'>
+			<h2>Tonight's Activities</h2>
+
+			<div class='tileContainer' style=''>
+				<div>
+					<h2>&#128302; Pretty Pictionary</h2>
+					Have MS Paint or something similar ready to go :)
+					<p>This is like classic pictionary except I've used clues which relate to the both of us in some way shape or form.</p>
+					<button>Play!</button>
+				</div>
+				<div>
+					<h2>&#129497; Are We Really Strangers?</h2>
+					See how much we really know eachother &#128064;
+					<p>I tried to guess what kind of questions are in the card game lol</p>
+					<button>Play!</button>
+				</div>
+                		<div>
+					<h2>&#127909; Virtual Movie Night <3</h2>
+					Cuddle up with a pillow shaped like me and lets watch a movie together
+					<p>If we want, we can use something like Teleparty to watch 'together'</p>
+					<button onclick='window.open("https://www.teleparty.com/")'>Get Teleparty</button>
+				</div>
+			</div> <!-- end of activity selection -->
 		</div>
 	</body>
 	
