@@ -35,7 +35,7 @@
 		<div class='container'>
 			<h2>Remove Words</h2>
 			<input type='text' placeholder='Type the Word' id='txtInput'></input>
-			<button>Remove</button>
+			<button onclick='removeWord()'>Remove</button>
 		</div>
 
 		<br>
@@ -60,6 +60,8 @@
 
 		var listLength = clueList.length;
 
+		var removedWords = [];
+
 		function scorePlus(num){
 			if(num == 1){
 				scoreR += 1;
@@ -67,6 +69,12 @@
 				scoreM += 1;
 			}
 			scoreDisp.innerHTML = "<span style='color:cyan'>Rooben: " + scoreR + " </span>|<span style='color:red'> Michael Poop: " + scoreM + "</span>";
+		}
+
+		function removeWord(){
+			removedWords.push(txtInput.value);
+			console.log("Removed word " + txtInput.value);
+			txtInput.value = '';
 		}
 		
 		function generateClue(){
