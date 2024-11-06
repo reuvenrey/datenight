@@ -46,11 +46,14 @@
 			<button onclick='scorePlus(1)'>Reuven +</button> <button onclick='scorePlus(2)'>Michael +</button>
 		</div>
 		
-	</body>
-
-	<script type='text/javascript' src='https://reuvenrey.github.io/datenight/files/wordlist.js'></script>
+	<!-- <script type='text/javascript' src='https://reuvenrey.github.io/datenight/files/wordlist.js'></script> -->
 
 	<script>
+		const clueList = ["Disneyland", "Steak House", "Corner Bakery", "Audi", "Fresno", "Irvine Spectrum", "Pumpkin", "Jake Peralta", "Amy Santiago", "Captain Holt", "Spider",  \
+           		"Old Man", "Running Shoe", "Jockstrap", "Rave", "Hardstyle", "Bedroom", "Pride", "T-rex", "University", "Baby", "Bar",  \
+           		"Nightclub", "Wine", "Beach", "Calendar", "Pizzaria", "Tomato", "Cinnamon Roll", "Holding Hands", "Nude Beach", "Coffee", "Flowers", "Trader Joes"];
+
+		
 		const clueDisp = document.getElementById("userClue");
 		const scoreDisp = document.getElementById("scoreDisp");
 		const txtInput = document.getElementById("txtInput");
@@ -69,19 +72,19 @@
 			scoreDisp.innerHTML = "<span style='color:cyan'>Rooben: " + scoreR + " </span>|<span style='color:red'> Michael Poop: " + scoreM + "</span>";
 		}
 
-		function removeWord(){
-			let userInput = txtInput.value.toLowerCase();
-			let index = clueList.findIndex(word => word.toLowerCase() === userInput);
-
-			if (index !== -1) { clueList.splice(index, 1); }
+		function removeWord(){ 
+			let userInput = txtInput.value.toLowerCase(); 
+			let index = clueList.findIndex(word => word.toLowerCase() === userInput); 
 			
-			alert("Removed word " + txtInput.value);
-			txtInput.value = '';
+			if (index !== -1) { clueList.splice(index, 1); alert("Removed word " + txtInput.value); } 
+			else { alert("Word not found"); } 
+			txtInput.value = ''; 
 		}
 		
 		function generateClue(){
 			
 		}
 	</script>
+</body>
 	
 </html>
