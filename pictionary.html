@@ -99,10 +99,22 @@
 				let ranNum = getRandomNumber();
 				console.log("Random Number: " + ranNum);
 				clueWord = clueList[ranNum];
-				clueDisp.style.opacity = 0;
-				clueDisp.innerHTML = clueWord;
-				setTimeout(function(){clueDisp.style.opacity = 1;},1000);
 
+				var id = setInterval(frame, 6);
+				let scale = 1;
+				function frame() {
+					if(scale > 0) {
+						scale -= 0.1;
+						clueDisp.style.scale = scale;
+					}else if(scale <= 0 && scale > -1){
+						clueDisp.innerHTML = clueWord;
+						scale -= 0.1;
+						clueDisp.style.scale = (scale*(-1));
+					}else{
+						clearInterval(id);
+					}
+				}
+			
 				// Delete word
 				let index = clueList.findIndex(word => word.toLowerCase() === clueWord.toLowerCase()); 
 				if (index !== -1) { clueList.splice(index, 1); console.log("Removed word " + clueWord); 
@@ -111,10 +123,11 @@
 					  } 
 				else { console.log("Word not found"); } 
 				}
+
 			else{
 				alert("No more clues remaining, game over!");
 			}
-		}
+		}// FUNCTION GENERATE CLUE
 	</script>
 </body>
 	
