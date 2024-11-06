@@ -52,8 +52,8 @@
 
 	<script>
 		const clueList = ["Disneyland", "Steak House", "Corner Bakery", "Fresno", "Irvine Spectrum", "Pumpkin Painting", "Jake Peralta", "Hitchcock and Sculy", "Captain Holt", "Spider",  
-           		"Old Man", "Running Shoe", "Jockstrap", "Rave", "Hardstyle", "Spin Class", "Pride", "T-rex", "Spooning", "Baby", "Planet Zoo", "Taco Salad", "Coke Daddy", "Shower Sex",
-           		"Nightclub", "Wine", "Slut Shorts", "Calendar", "Pizzaria", "Work From Home", "Cinnamon Roll", "Holding Hands", "Nude Beach", "Coffee", "Flowers", "Trader Joes", "69"];
+           		"T-Rex", "Running Shoe", "Jockstrap", "Rave", "Hardstyle", "Spin Class", "Pride", "Spooning", "Baby", "Planet Zoo", "Taco Salad", "Coke Daddy", "Shower Sex",
+           		"Nightclub", "Wine", "Slut Shorts", "Calendar", "Pizzaria", "Work From Home", "Cinnamon Roll", "Holding Hands", "Nude Beach", "Coffee", "Flowers", "Trader Joes", "69", "Herman From RSM", "Eating Butt"];
 
 		
 		const clueDisp = document.getElementById("userClue");
@@ -104,11 +104,11 @@
 				let scale = 1;
 				function frame() {
 					if(scale > 0) {
-						scale -= 0.1;
+						scale -= 0.01;
 						clueDisp.style.scale = scale;
 					}else if(scale <= 0 && scale > -1){
 						clueDisp.innerHTML = clueWord;
-						scale -= 0.1;
+						scale -= 0.01;
 						clueDisp.style.scale = (scale*(-1));
 					}else{
 						clearInterval(id);
