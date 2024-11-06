@@ -26,7 +26,7 @@
 		
 		<div class='container'>
 			<h2>Clue Card</h2>
-			<div style='margin:10px;'><h3 id='userClue'>Press 'Next Clue' to Generate a Clue</h3></div>
+			<div style='margin:10px; transition:0.5s;'><h3 id='userClue'>Press 'Next Clue' to Generate a Clue</h3></div>
 			<p><button onclick='generateClue()'>Next Clue</button></p>
 		</div>
 
@@ -34,8 +34,9 @@
 
 		<div class='container'>
 			<h2>Remove Words</h2>
-			<input type='text' placeholder='Type the Word' id='txtInput'></input>
+			<input type='text' placeholder='Type the Word' id='txtInput'>
 			<button onclick='removeWord()'>Remove</button>
+			<p id='wordRemain'>Words Remaining</p>
 		</div>
 
 		<br>
@@ -49,19 +50,23 @@
 	<!-- <script type='text/javascript' src='https://reuvenrey.github.io/datenight/files/wordlist.js'></script> -->
 
 	<script>
-		const clueList = ["Disneyland", "Steak House", "Corner Bakery", "Audi", "Fresno", "Irvine Spectrum", "Pumpkin", "Jake Peralta", "Amy Santiago", "Captain Holt", "Spider",  \
-           		"Old Man", "Running Shoe", "Jockstrap", "Rave", "Hardstyle", "Bedroom", "Pride", "T-rex", "University", "Baby", "Bar",  \
+		const clueList = ["Disneyland", "Steak House", "Corner Bakery", "Audi", "Fresno", "Irvine Spectrum", "Pumpkin", "Jake Peralta", "Amy Santiago", "Captain Holt", "Spider",  
+           		"Old Man", "Running Shoe", "Jockstrap", "Rave", "Hardstyle", "Bedroom", "Pride", "T-rex", "University", "Baby", "Bar",  
            		"Nightclub", "Wine", "Beach", "Calendar", "Pizzaria", "Tomato", "Cinnamon Roll", "Holding Hands", "Nude Beach", "Coffee", "Flowers", "Trader Joes"];
 
 		
 		const clueDisp = document.getElementById("userClue");
 		const scoreDisp = document.getElementById("scoreDisp");
 		const txtInput = document.getElementById("txtInput");
-
+		const wordRemain = document.getElementById("wordRemain");
+		
 		var scoreR = 0;
 		var scoreM = 0;
 
 		var listLength = clueList.length;
+		wordRemain.innerHTML = listLength + " clues remaining";
+
+		var clueWord;
 
 		function scorePlus(num){
 			if(num == 1){
@@ -76,13 +81,38 @@
 			let userInput = txtInput.value.toLowerCase(); 
 			let index = clueList.findIndex(word => word.toLowerCase() === userInput); 
 			
-			if (index !== -1) { clueList.splice(index, 1); alert("Removed word " + txtInput.value); } 
+			if (index !== -1) { clueList.splice(index, 1); alert("Removed word " + txtInput.value); 
+					  	txtInput.value = ''; 
+					   	listLength = clueList.length;
+						wordRemain.innerHTML = listLength + " clues remaining";
+					  } 
 			else { alert("Word not found"); } 
-			txtInput.value = ''; 
+		} // End of function remove word
+
+		function getRandomNumber() {
+    			return Math.floor(Math.random() * listLength);
 		}
 		
 		function generateClue(){
-			
+			if(listLength > 1){
+				let ranNum = getRandomNumber();
+				console.log("Random Number: " + ranNum);
+				clueWord = clueList[ranNum];
+				clueDisp.style.opacity = 0;
+				clueDisp.innerHTML = clueWord;
+				setTimeout(function(){clueDisp.style.opacity = 1;},1000);
+
+				// Delete word
+				let index = clueList.findIndex(word => word.toLowerCase() === clueWord.toLowerCase()); 
+				if (index !== -1) { clueList.splice(index, 1); console.log("Removed word " + clueWord); 
+					   	listLength = clueList.length;
+						wordRemain.innerHTML = listLength + " clues remaining";
+					  } 
+				else { console.log("Word not found"); } 
+				}
+			else{
+				alert("No more clues remaining, game over!");
+			}
 		}
 	</script>
 </body>
