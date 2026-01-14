@@ -101,7 +101,7 @@ function submitGuess(){
     function resetGuess(){
         totalGuesses += 1; // move to new row for next guess
         if(JSON.stringify(curInput) == JSON.stringify(answerWord)){
-            setTimeout(function(){alert('You Win! ٩(◕‿◕)۶');},500);
+            setTimeout(runWin,500);
         }
         else if(totalGuesses < maxGuess && curInput != answerWord){
             keyboard.style.display = 'block';
@@ -109,7 +109,7 @@ function submitGuess(){
             document.getElementById('btn-Enter').classList.add('removed');
         }
         else{
-            setTimeout(function(){alert('Out of guesses (●´⌓`●)\n\nThe word was: ' + answerWord);},500);
+            setTimeout(runLost(),500);
         }
     }
 
@@ -118,6 +118,23 @@ function beginGuesing(){
     let guessWord = document.getElementById('wordToGuess').value.toUpperCase();
     answerWord = guessWord.split("");
     console.log('Guess word is '+answerWord);
+}
+
+function runWin(){
+    document.getElementById('popUpWindow').innerHTML = "<div>\
+        <h1 class='lexend-font'>You Win! Yayyy</h1>\
+        <img style='width:300px; height:auto; margin:auto; border-radius:10px;' src='https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExNno5endza3Nxdm53YWpjMWhydGtwcXFuZmh2dHNyMDRwbzdkd2x4eSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/k5SZBJqzdOnF6Tdjj4/giphy.gif'>\
+        <br><br><button onclick='location.reload();'>Play Again</button> <button onclick='document.getElementById(\"popUpWindow\").classList.add(\"hidden\")'>View Puzzle</button></div>"
+    document.getElementById('popUpWindow').classList.remove('hidden');
+}
+
+function runLost(){
+    document.getElementById('popUpWindow').innerHTML = "<div>\
+        <h1 class='lexend-font'>You Lose :(</h1>\
+        <p>The word is "+answerWord+"</p><br>\
+        <img style='width:300px; height:auto; margin:auto; border-radius:10px;' src='https://media3.giphy.com/media/v1.Y2lkPTZjMDliOTUyMzVuanZ5eWRkZmRjM2Y1b2I5bnoyYmZlbXNxZjUyaXJtMnI4cDR6aSZlcD12MV9naWZzX3NlYXJjaCZjdD1n/BEob5qwFkSJ7G/200w.gif'>\
+        <br><br><button onclick='location.reload();'>Play Again</button> <button onclick='document.getElementById(\"popUpWindow\").classList.add(\"hidden\")'>View Puzzle</button></div>"
+    document.getElementById('popUpWindow').classList.remove('hidden');
 }
 
 document.getElementById('wordToGuess').select();
