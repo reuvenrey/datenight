@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
+        <link href="https://fonts.googleapis.com/css2?family=Lexend+Mega:wght@300&display=swap" rel="stylesheet">
+    </head>
+
+    <style>
+        *{
+            font-family: sans-serif;
+            box-sizing: border-box;
+        }
+        .lexend-font{
+            /* Font */
+            font-family: "Lexend Mega", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        body{
+            background:#3a3a3c;
+            color:white;
+        }
+        .container{
+            width:100%; padding:10px;
+            max-width: 500px;
+            margin:auto;
+        }
+
+        #keyboard{
+            width:100%;
+        }
+            #keyboard > div { /* individual row */
+                width:100%;
+                display:flex; flex-flow:row;
+                margin-bottom: 5px;
+                justify-content: center;
+            }
+            #keyboard > div > div { /* individual keys */
+                background:#818384;
+                color:white;
+                font-size:22px; padding:20px 10px 20px 10px;
+                margin:5px 2.5px 5px 2.5px;
+                width:10%;
+                align-self: stretch; text-align: center;
+                border-radius: 10px; cursor:pointer;
+                transition:0.5s;
+            }
+            #keyboard > div > div.removed {
+                cursor:default; background:black;
+                color:gray;
+            }
+            #keyboard > div > div.correct{
+                background:#538d4e;
+            }
+            #keyboard > div > div.hint{
+                background:#b59f3b;
+            }
+
+        #gameBoard{
+            width:100%; max-width: 400px;
+            display:flex;
+            flex-flow: row;
+            flex-wrap: wrap; gap:5px;
+            justify-content: center;
+            margin:auto;
+            margin-bottom:30px;
+        }
+            #gameBoard > div {
+                aspect-ratio: 1/1;
+                border:1px solid gray;
+                flex-basis: calc(20% - 10px);
+                display: flex; align-items: center; justify-content: center;
+                transition: 0.5s;
+            }
+                #gameBoard > div.correct{
+                    background:#538d4e;
+                }
+                #gameBoard > div.hint{
+                    background:#b59f3b;
+                }
+            #gameBoard > div > div{
+                font-size: 30px;  font-family: "Lexend Mega", sans-serif;
+                color:white;
+                transition: 0.5s;
+            }
+        #popUpWindow{
+            position:fixed; top:0; bottom:0; left:0; right:0;
+            overflow: auto;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center; justify-content: center;
+            transition: 0.5s;
+        }
+            #popUpWindow div{
+                background: white;
+                border-radius: 20px;
+                padding:20px; text-align: center;
+                color: black;
+                width:90%; max-width: 500px;
+            }
+        #popUpWindow.hidden {opacity: 0; pointer-events: none;}
+    </style>
+
+    <body>
+        <div id="popUpWindow">
+            <div>
+                <h1 class="lexend-font">Welcome to Shartle</h1>
+                One player will decide on a 5-letter word and discretely type it in here. The second player will then try to guess the word in 6 tries.
+                <input id='wordToGuess' type="text" placeholder="SHART" maxlength="5" style="font-size: 22px; width:100%; margin:20px 0px 10px 0px; text-align: center;">
+                <p><button onclick="beginGuesing();">Begin Guessing</button></p>
+            </div>
+        </div>
+        <div class="container">
+            <h1 class="lexend-font" style="text-align: center;">Shartle</h1>
+            <div id="gameBoard">
+            </div>
+            <div id="keyboard">
+                An error has occured.
+            </div>
+        </div>
+        
+        <p class="lexend-font" style="text-align: center;">Created by Reuven Reyman for his Wordle-loving Boyfriend 💙</p>
+    </body>
+</html>
+
+<script src="files/shartleGame.js"></script>
