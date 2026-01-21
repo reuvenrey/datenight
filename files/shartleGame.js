@@ -90,22 +90,23 @@ function submitGuess(){
             // check if this letter has been guessed already and remove that guess (since this one is correct)
             if(i>0){
                 let amountAppear = answerCount[answerWord.indexOf(curValue)]; // amount letter appears in word.
-                var cnt = 1;
-                for(k=0;k<i;k++){ // check guesses ahead of this one to count how many times a letter appears
-                    if(document.getElementById('row-'+totalGuesses+'-col-'+k+'-child').innerHTML == curValue){
+                var cnt = 0;
+                for(k=i;k>=0;k--){ // check guesses ahead of this one to count how many times a letter appears
+                    if(document.getElementById('row-'+totalGuesses+'-col-'+k+'-child').innerHTML == curValue && checkAnswer[k] != 'X'){
                         cnt += 1;
                     }
-                    if(cnt > amountAppear){
+                    if(cnt > amountAppear && checkAnswer[k] == 'O'){
                         checkAnswer[k] = 'X';
                     }
+                    console.log('Counted ' + cnt + ' instances of ' + curValue);
                 }
             }
         }else if(answerWord.includes(curValue)){// correct letter, incorrect location
             if(i>0){
                 let amountAppear = answerCount[answerWord.indexOf(curValue)]; // amount letter appears in word.
                 var cnt = 0;
-                for(k=0;k<i;k++){ // check guesses ahead of this one to count how many times a letter appears
-                    if(document.getElementById('row-'+totalGuesses+'-col-'+k+'-child').innerHTML == curValue){
+                for(k=i-1;k>=0;k--){ // check guesses ahead of this one to count how many times a letter appears
+                    if(document.getElementById('row-'+totalGuesses+'-col-'+k+'-child').innerHTML == curValue && checkAnswer[k] != 'X'){
                         cnt += 1;
                     }
                 }
