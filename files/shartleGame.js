@@ -6,7 +6,9 @@ const curInput = []; // the current guess
 // Initial Values
 const maxGuess = 6;
 var totalGuesses = 0;
-var answerWord=['C','A','N','O','E'];
+var answerWord=['C','A','N','O','E']; // The Final Word
+var answerCount = ['1','1','1','1','1']; // Counts number of each letter
+var checkAnswer = []; // for revealing the results of a guess
 
 // keyboard setup
 const keyRows = 'Q,W,E,R,T,Y,U,I,O,P,A,S,D,F,G,H,J,K,L,Enter,Z,X,C,V,B,N,M,Delete';
@@ -74,34 +76,68 @@ function btnPress(val){
 // Test the answer
 var intervalCount;
 function submitGuess(){
-    intervalCount = 0;
     for(i=0;i<answerWord.length;i++){ // hide guessed letters
         let divId = document.getElementById('row-'+totalGuesses+'-col-'+i+'-child');
         divId.style.opacity=0;
     }
-    const revealAnswer = setInterval(function(){
-        console.log('Checking row-'+totalGuesses+'-col-'+intervalCount+'-child');
-        let divId = document.getElementById('row-'+totalGuesses+'-col-'+intervalCount+'-child');
-        if(divId.innerHTML == answerWord[intervalCount]){ // check if right letter in right place
-            document.getElementById('row-'+totalGuesses+'-col-'+intervalCount).classList.add('correct'); // change gameboard tile color
-            document.getElementById('btn-'+divId.innerHTML).classList.add('correct'); // change keyboard key color
-        }else if(answerWord.includes(divId.innerHTML)){ // correct letter, incorrect location
-            document.getElementById('row-'+totalGuesses+'-col-'+intervalCount).classList.add('hint');
-            if(document.getElementById('btn-'+divId.innerHTML).classList.contains('correct') != true){
-                 document.getElementById('btn-'+divId.innerHTML).classList.add('hint'); // change keyboard key color
+
+    // Check answer
+    checkAnswer = [];
+    for(i=0;i<answerWord.length;i++){
+        let curValue = document.getElementById('row-'+totalGuesses+'-col-'+i+'-child').innerHTML;
+        if(curValue == answerWord[i]){// correct letter, correct location
+            checkAnswer[i] = 'Y';
+            // check if this letter has been guessed already and remove that guess (since this one is correct)
+            if(i>0){
+                let amountAppear = answerCount[answerWord.indexOf(curValue)]; // amount letter appears in word.
+                var cnt = 1;
+                for(k=0;k<i;k++){ // check guesses ahead of this one to count how many times a letter appears
+                    if(document.getElementById('row-'+totalGuesses+'-col-'+k+'-child').innerHTML == curValue){
+                        cnt += 1;
+                    }
+                    if(cnt > amountAppear){
+                        checkAnswer[k] = 'X';
+                    }
+                }
             }
+        }else if(answerWord.includes(curValue)){// correct letter, incorrect location
+            if(i>0){
+                let amountAppear = answerCount[answerWord.indexOf(curValue)]; // amount letter appears in word.
+                var cnt = 0;
+                for(k=0;k<i;k++){ // check guesses ahead of this one to count how many times a letter appears
+                    if(document.getElementById('row-'+totalGuesses+'-col-'+k+'-child').innerHTML == curValue){
+                        cnt += 1;
+                    }
+                }
+                if(cnt < amountAppear){
+                    checkAnswer[i] = 'O'; // letter is correct, in wrong spot, and does not appear more than it does in the answer
+                }else{
+                    checkAnswer[i] = 'X'; // letter is correct, in wrong spot, and appears more than it does in the answer
+                }
+            }else{
+                checkAnswer[i] = 'O';
+            } 
         }else{
-            document.getElementById('btn-'+divId.innerHTML).classList.add('removed');
-        }
-        divId.style.opacity = 1;
+            checkAnswer[i] = 'X';
+        }   
+    }
+
+    console.log('Guess results: ' + checkAnswer);
+
+    // Display results in a "dramatic" fashion
+    intervalCount = 0;
+    const revealAnswer = setInterval(function(){
+        showAnswers(intervalCount);
         intervalCount += 1;
         if(intervalCount == 5){clearInterval(revealAnswer); resetGuess();}
     },500);
 }
+
+    // After guess, reset board OR end game
     function resetGuess(){
         totalGuesses += 1; // move to new row for next guess
         if(JSON.stringify(curInput) == JSON.stringify(answerWord)){
-            setTimeout(runWin,500);
+            setTimeout(runWin,600);
         }
         else if(totalGuesses < maxGuess && curInput != answerWord){
             keyboard.style.display = 'block';
@@ -109,17 +145,36 @@ function submitGuess(){
             document.getElementById('btn-Enter').classList.add('removed');
         }
         else{
-            setTimeout(runLost(),500);
+            setTimeout(runLost(),600);
         }
     }
 
+// After first user sets guess word
 function beginGuesing(){
-    document.getElementById('popUpWindow').classList.add('hidden');
-    let guessWord = document.getElementById('wordToGuess').value.toUpperCase();
-    answerWord = guessWord.split("");
+    let guessWord = document.getElementById('wordToGuess').value.toUpperCase().split("");
+
+    if(guessWord.length != 5){
+        alert('Word must be exactly 5 letters.')
+    }else{
+        answerWord = guessWord;
+        for(i=0;i<answerWord.length;i++){
+            let thisLetter = answerWord[i];
+            // Count how many times selected letter appears.
+            var cnt = 0;
+            for(k=0;k<answerWord.length;k++){
+                if(answerWord[k]==thisLetter){
+                    cnt += 1;
+                }
+            }
+            answerCount[i] = cnt;
+        }
+        document.getElementById('popUpWindow').classList.add('hidden');
+    }
     console.log('Guess word is '+answerWord);
+    console.log('Letter counts: '+ answerCount);
 }
 
+// User wins the game
 function runWin(){
     document.getElementById('popUpWindow').innerHTML = "<div>\
         <h1 class='lexend-font'>You Win! Yayyy</h1>\
@@ -128,6 +183,7 @@ function runWin(){
     document.getElementById('popUpWindow').classList.remove('hidden');
 }
 
+// User loses the game
 function runLost(){
     document.getElementById('popUpWindow').innerHTML = "<div>\
         <h1 class='lexend-font'>You Lose :(</h1>\
@@ -137,4 +193,25 @@ function runLost(){
     document.getElementById('popUpWindow').classList.remove('hidden');
 }
 
+// Select text box (on page reload)
 document.getElementById('wordToGuess').select();
+
+
+// Animates individual letter
+function showAnswers(inter){
+    console.log('Animating row-'+totalGuesses+'-col-'+inter+'-child');
+
+    let divId = document.getElementById('row-'+totalGuesses+'-col-'+inter+'-child');
+    if(checkAnswer[inter] == 'Y'){ // check if right letter in right place
+        document.getElementById('row-'+totalGuesses+'-col-'+inter).classList.add('correct'); // change gameboard tile color
+        document.getElementById('btn-'+divId.innerHTML).classList.add('correct'); // change keyboard key color
+    }
+    else if(checkAnswer[inter] == 'O'){ // correct letter, incorrect location
+        document.getElementById('row-'+totalGuesses+'-col-'+inter).classList.add('hint');
+        document.getElementById('btn-'+divId.innerHTML).classList.add('hint'); // change keyboard key color
+    }
+    else{ // checkAnswer[iter] = X
+        document.getElementById('btn-'+divId.innerHTML).classList.add('removed');
+    }
+    divId.style.opacity = 1;
+}
